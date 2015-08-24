@@ -4,20 +4,20 @@
       %article
         %header
           %img(src="http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(@user.email.downcase)}?s=40")
-          %h2 #{@user.full_name}'s video collections (#{@user.queue_items.count})
+          %h2 #{@user.full_name}'s video collections (#{@user.playlist_items.count})
           = link_to "Follow", relationships_path(leader_id: @user.id), class: "btn-btn-primary", method: :post if current_user.can_follow?(@user)
         %table.table
           %thead
             %tr
-              %th(width="30%") Video Title
-              %th(width="15%") Genre
+              %th(width="30%") Song Title
+              %th(width="15%") Album
           %tbody
-            - @user.queue_items.each do |queue_item|
+            - @user.playlist_items.each do |playlist_item|
               %tr
                 %td
-                  = link_to queue_item.video.title, queue_item.video
+                  = link_to playlist_item.song.title, playlist_item.song
                 %td
-                  = link_to queue_item.video.category.name, queue_item.category
+                  = link_to playlist_item.song.album.title, playlist_item.song.album
 
 %section.user_reviews.container
   .row
@@ -30,7 +30,7 @@
             %li.row
               .col-sm-2
                 %p
-                  = link_to review.video.title, review.video
+                  = link_to review.album.title, review.album
                 %col Rating: #{review.rating} / 5
               .col-sm-8
                 %p= review.content
