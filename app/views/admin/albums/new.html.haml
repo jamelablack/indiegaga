@@ -1,0 +1,24 @@
+%section.admin_add_video
+  .container
+    .row
+      .col-md-10.col-md-offset-1
+        = bootstrap_form_for([:admin, @artist], layout: :horizontal, label_col: "col-sm-2", control: "col-sm-6") do |f|
+          %ul.nav.nav-tabs
+            %li
+              %a(href="/ui/admin_views_payments") Recent Payments
+              %a(href="") Add New Artist
+              %a(href="") Add Songs
+            %li.active
+              %a(href="") Add New Album
+          %br
+          %fieldset
+            .col-md-10.col-md-offset-1
+              = f.text_field :title, control_col: "col-sm-4"
+              = f.select :artist_id, options_for_select(Artist.all.map {|artist| [artist.name, [e.id]})
+              = f.text_area :description, rows: 6
+              = f.text_field :year
+              = f.number_field :price
+              = f.file_field :cover, class: "btn-btn-file"
+            .col-sm-6.col-md-offset-1
+              = f.submit "Add Album"
+
