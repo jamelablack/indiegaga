@@ -1,9 +1,12 @@
+require 'sidekiq/web'
+
 Indiegaga::Application.routes.draw do
   root to: 'pages#front'
+  get '/home', to: 'artists#index'
 
   mount Sidekiq::Web, at: '/sidekiq'
 
-  get '/ui', 'ui#index'
+  get '/ui', to: 'ui#index'
   get 'ui(/:action)', controller: 'ui'
 
   resources :artists, only: [:show, :index] do
@@ -19,16 +22,17 @@ Indiegaga::Application.routes.draw do
     resources :payments, only: [:index]
     resources :artists, only: [:new, :create]
     resources :albums, only: [:new, :create]
+    resources :songs, only: [:new, :create]
   end
 
   get '/register', to: 'users#new'
-  resources :users, only: [:create, :new]
+  resources :users, only: [:create, :show]
   get 'register/:token', to: "users#new_with_invitation_token", as: 'register_with_token'
   get '/sign_in', to: 'sessions#new'
   get '/sign_out', to: 'sessions#destroy'
   resources :sessions, only: [:create]
 
-  get '/playlist', to: "playlists#index"
+  get '/playlist', to: "playlist_items#index"
   resources :playlist_items, only: [:create, :destroy]
   post 'update_queue', to: 'queue_items#update_queue'
 
@@ -39,10 +43,10 @@ Indiegaga::Application.routes.draw do
   resource :forgot_passwords, only: [:create]
   get 'forgot_password_confirmation', to: 'forgot_passwords#confirm'
 
-  resources :passwords_resets, only: [:show, :create]
+  resources :password_resets, only: [:show, :create]
   get 'expired_token', to: 'pages#expired_token'
 
-  resources, :invitations, only: [:new, :create]
+  resources :invitations, only: [:new, :create]
 
-  mount Stripe::Engine => '/stripe_events'
+  mount StripeEvent::Engine => '/stripe_events'
 end
