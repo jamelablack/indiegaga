@@ -1,0 +1,64 @@
+%article.video
+  .container
+    .row
+      .video_large_cover.col-sm-7.col-sm-offset-1
+        = image_tag @artist.large_cover.large_version.url
+      .video_info.col-sm-3
+        %header
+          %h3= @artist.name
+          %span Genere:
+          = @artist.genre_id
+          %span Rating:
+          = @artist.rating / 5
+          %span Formed:
+          = @artist.year_created
+          %span Webpage:
+          = @artist.webpage
+          %span Merchandise
+          = @artist.store
+        %p= @artist.bio
+        .actions
+          %a.btn.btn-primary(href="") Watch Video
+          %a.btn.btn-default(href="") + Follow
+
+        %header
+          %h3 Albums (#{@albums.count})
+        %ul
+          - @albums.each do |album|
+            %article.review
+              %li.row
+                .col-sm-2
+                  %span Year Released: #{album.year}
+                .col-sm-8
+                  %p
+                    = link_to album.title, album
+
+%section.reviews.container
+  .row
+    .col-sm-10.col-sm-offset-1
+      = form_for [@artist, Review.new] do |f|
+        %fieldset
+          .form-group
+            %label Rate this band
+            .row
+              .col-sm-3
+                = f.select :rating, options_for_artist_reviews
+          .form-group
+            %label Write Review
+            .row
+              .col-sm-8
+                = f.text_area :content, rows: 6, class: "span6"
+        %fieldset.form-group.actions.clearfix
+          %input(type="submit" value="Submit" class="btn")
+          = link_to "Cancel", @artist
+      %header
+        %h3 User Reviews (#{@reviews.count})
+      %ul
+        - @reviews.each do |review|
+          %article.review
+            %li.row
+              .col-sm-2
+                %span Rating: #{review.rating} / 5
+                  = link_to review.user.full_name, review.user
+              .col-sm-8
+                %p #{review.content}

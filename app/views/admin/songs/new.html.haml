@@ -1,0 +1,29 @@
+%section.admin_payments
+  .container
+    .row
+      .col-sm-10.col-sm-offset-1
+        = bootstrap_form_for([:admin, @song], layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-6") do |f|
+        %section.payment_history
+          %ul.nav.nav-tabs
+            %li.active
+              %a(href="") Add Songs
+            %li
+              %a(href="") Add Artist
+              %a(href="") Add Album
+              %a(href="") Recent Payments
+
+            = f.select :album_id, options_for_select(Album.all.map {|album| [album.title, album.id]})
+          %table.table
+            %thead
+              %tr
+                %th Track No.
+                %th Title
+                %th Song Url
+            %tbody
+              %tr
+                %td= f.number_field :track
+                %td= f.text_field :title
+                %td= f.text_field :url
+            .col-md-10.col-md-offset-1
+              = f.submit "Add Songs"
+

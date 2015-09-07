@@ -1,0 +1,18 @@
+%article.video
+  .container
+    .row
+      %header
+        %h3= @album.name
+        %p  by
+          = link_to @album.artist.name, artist_path(artist)
+        .video_large_cover.col-sm-7.col-sm-offset-1
+          = image_tag @album.cover.med_version.url, alt: "album cover"
+        %ul
+          - @songs.each do |song|
+            %article.review
+              %li.row
+                .col-sm-2
+                  %span Track Number: #{song.track}
+                .col-sm-8
+                  %p
+                    = link_to song.title, song.url
