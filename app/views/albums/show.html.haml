@@ -7,12 +7,14 @@
           = link_to @album.artist.name, artist_path(artist)
         .video_large_cover.col-sm-7.col-sm-offset-1
           = image_tag @album.cover.med_version.url, alt: "album cover"
-        %ul
+          %table.table
+            %thead
+              %tr
+                %th Track No.
+                %th Song
+                %th Add to Playlist
+            %tbody
           - @songs.each do |song|
-            %article.review
-              %li.row
-                .col-sm-2
-                  %span Track Number: #{song.track}
-                .col-sm-8
-                  %p
-                    = link_to song.title, song.url
+                  %td= song.track
+                  %td= link_to song.title, song.url
+                  %td= link_to " + My Playlist", playlist_items_path(song_id: song.id), method: :post, class: 'btn' unless current_user.queued_song?(@song)
