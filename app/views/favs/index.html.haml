@@ -1,0 +1,22 @@
+%section.people
+  %header
+    %h2 Artists I Follow
+  %table.table
+    %thead
+      %tr
+        %th(width="30%") Artist
+        %th(width="20%") Genre
+        %th(width="20%") Followers
+        %th(width="30%") Unfollow
+    %tbody
+      - @favs.each do |fav|
+        %tr
+          %td
+            %img(src="http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(relationship.leader.email.downcase)}?s=40")
+            = link_to fav.icon.name, fav.icon
+          %td.extra-padding= fav.icon.genre
+          %td.extra-padding= fav.icon.fav_relationships.countartist_leader.artist_favs.count
+          %td.extra-padding
+            = link_to fav, method: :delete do
+              %i.glyphicon.glyphicon-remove
+

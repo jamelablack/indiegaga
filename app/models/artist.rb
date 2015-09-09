@@ -2,6 +2,7 @@ class Artist < ActiveRecord::Base
   belongs_to :genre
   has_many :albums
   has_many :reviews, -> { order(created_at: :desc) }
+  has_many :fav_relationships, class_name: "Fav", foreign_key: :icon_id
 
   mount_uploader :large_cover, LargeCoverUploader
   mount_uploader :small_cover, SmallCoverUploader
