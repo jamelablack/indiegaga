@@ -18,11 +18,11 @@
           = @artist.store
         %p= @artist.bio
         .actions
-          %a.btn.btn-primary(href="") Watch Video
-          %a.btn.btn-default(href="") + Follow
+          %a.btn.btn-primary(href= "#{@artist.video_url}") Watch Featrued Video
+          %a.btn.btn-default(href="") + Follow Artist
 
         %header
-          %h3 Albums (#{@albums.count})
+          %h3 Albums (#{@artist.albums})
         %ul
           - @albums.each do |album|
             %article.review

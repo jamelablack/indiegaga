@@ -4,29 +4,12 @@ class PlaylistItem < ActiveRecord::Base
 
   delegate :title, to: :song
   delegate :album, to: :song, prefix: :song
+  delegate :genre, to: :song
 
   validates_numericality_of :position, {only_integer: true}
 
-  def rating
-    review.rating if review
+  def genre_name
+    album.genre.name
   end
 
-  def rating=(new_rating)
-    if review
-      review.update_column(:rating, new_rating)
-    else
-      review = Review.new(user: user, video: video, rating: new_rating)
-      review.save(validate: false)
-    end
-  end
-
-  def category_name
-    category.name
-  end
-
-
-private
-  def review
-    @review ||= Review.where(user_id: user.id, video_id: video.id).first
-  end
 end

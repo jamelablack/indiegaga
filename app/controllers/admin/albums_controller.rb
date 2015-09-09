@@ -14,6 +14,7 @@ class Admin::AlbumsController < AdminsController
     end
   end
 
+
   private
 
   def album_params

@@ -1,0 +1,31 @@
+%section.my_queue.container
+  .row
+    .col-sm-10.col-sm-offset-1
+      %article
+        %header
+          %h2 My Playlist
+        = form_tag update_playlist_path do
+          %table.table
+            %thead
+              %tr
+                %th(width="10%") List Order
+                %th(width="30%") Song Title
+                %th(width="20%") Album Title
+                %th(width="10%") Play
+                %th(width="15%") Genre
+                %th(width="15%") Remove
+            %tbody
+              - @playlist_items.each do |playlist_item|
+                %tr
+                  = hidden_field_tag "playlist_items[][id]", playlist_item.id
+                  %td= text_field_tag "playlist_items[][position]", playlist_item.position, data: {song_id: playlist_item.song.id}
+                  %td
+                    = link_to playlist_item.song_title, playlist_item.song.url
+                  %td
+                    = button_to "Play", playlist_item.song.url, class: "btn btn-default"
+                  %td
+                    = link_to playlist__item.genre_name, playlist_item.genre
+                  %td
+                    = link_to playlist_item, method: :delete do
+                      %i.glyphicon.glyphicon-remove
+        = submit_tag "Update Playlist", class: "btn btn-default"

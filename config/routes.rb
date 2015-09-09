@@ -36,6 +36,9 @@ Indiegaga::Application.routes.draw do
   resources :playlist_items, only: [:create, :destroy]
   post 'update_queue', to: 'queue_items#update_queue'
 
+  get 'favorties', to: 'favs#index'
+  resources :favs, :only: [:create, :destroy]
+
   get 'people', to: 'relationships#index'
   resources :relationships, only: [:create, :destroy]
 
@@ -47,6 +50,5 @@ Indiegaga::Application.routes.draw do
   get 'expired_token', to: 'pages#expired_token'
 
   resources :invitations, only: [:new, :create]
-
   mount StripeEvent::Engine => '/stripe_events'
 end
